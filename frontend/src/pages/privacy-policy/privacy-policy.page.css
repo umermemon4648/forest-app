@@ -1,0 +1,36 @@
+.policyCss h3 {
+  @apply text-colorSecondary text-4xl font-bold;
+}
+
+.policyCss h4 {
+  @apply text-colorSecondary text-2xl font-bold;
+}
+
+.policyCss p, .policyCss li {
+  @apply text-colorSecondary;
+}
+
+.policyCss span {
+  @apply text-colorPrimary;
+}
+
+/* Add this CSS to style your table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #e0e0e0; /* Border color */
+  }
+  th{
+    text-align: center;
+  }
+  td{
+    text-align: left;
+  }
+  
+  th, td {
+    border: 1px solid #e0e0e0; /* Border color */
+    padding: 10px;
+  }
+
+
+  

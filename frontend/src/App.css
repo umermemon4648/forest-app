@@ -1,0 +1,74 @@
+/* poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Define the font-face with the correct URL path */
+@font-face {
+  font-family: "Harmonia Sans";
+  src: url('/src/assets/font/HarmoniaSans\ W02.woff2') format('woff2');
+  /* Adjust the path */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Define the font-face with the correct URL path */
+@font-face {
+  font-family: "Kalam";
+  src: url('/src/assets/font/Kalam.woff2') format('woff2');
+  /* Adjust the path */
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --gradient-background: linear-gradient(360deg, rgba(173, 209, 141, 1), rgba(241, 235, 226, 1) 21%);
+  --animation-duration: 30s;
+  --primary-color: #7ea55e;
+  --secondary-color: rgba(89, 88, 68);
+
+}
+
+body, button {
+  font-family: "Harmonia Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.kalam {
+  font-family: "Kalam", sans-serif;
+}
+
+.App {
+  position: relative;
+}
+
+.bgGradient {
+  background: var(--gradient-background);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.buttonPrimary {
+  @apply w-max bg-colorPrimary text-colorFifth text-sm tracking-widest rounded-xl px-8 py-3 hover:shadow-lg hover:shadow-colorPrimary/20 hover:scale-[1.01] cursor-pointer transition-all ease-in-out duration-150;
+}
+
+.buttonSecondary {
+  @apply w-max bg-colorFifth border border-colorFourth/20 hover:border-colorFourth text-colorFourth text-sm tracking-widest rounded-xl px-6 sm:px-8 py-3 hover:shadow-lg hover:scale-[1.01] transition-all ease-in-out duration-150;
+}
+
+.buttonTertiary {
+  @apply w-max bg-colorPrimary hover:bg-colorSeventh border border-colorPrimary text-colorFifth hover:text-colorPrimary text-sm tracking-widest rounded-md px-8 py-3 cursor-pointer transition-all ease-in-out duration-150;
+}
+
+.buttonFourth {
+  @apply w-max bg-colorSeventh hover:bg-colorPrimary border border-colorPrimary text-colorPrimary hover:text-colorFifth text-sm tracking-widest rounded-md px-8 py-3 cursor-pointer transition-all ease-in-out duration-150;
+}
+
+.bgGradientSecondary {
+  background-image: linear-gradient(rgba(255, 255, 255, 1), rgba(173, 209, 141, 0.25));
+}

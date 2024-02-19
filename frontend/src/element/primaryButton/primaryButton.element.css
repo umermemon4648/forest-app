@@ -1,0 +1,28 @@
+:root {
+    --color-button: 126,165,94;
+    --color-button-text: 253,251,247;
+    --alpha-button-background: 1;
+  }
+  
+  .buttonprimary {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .button-primary {
+    display: inline-block;
+    padding: 14px 35px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    cursor: pointer;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: rgb(var(--color-button-text));
+    background-color:  var(--primary-color);
+    transition: background-color 0.2s ease-out;
+    appearance: none;
+  }
+  

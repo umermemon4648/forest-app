@@ -1,0 +1,92 @@
+/* Carousel container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.carousel-container h3 {
+  font-size: 35px;
+  font-weight: 800;
+  color: var(--secondary-color); 
+  margin: 0 0 20px 0;
+}
+
+/* Styling for each slide */
+.carousel-container .slide {
+  position: relative;
+  height: 550px;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.carousel-container .slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-container .slide-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  max-width: 90%;
+    padding: 40px 60px;
+    text-align: center;
+    background: var(--gradient-background);
+    border-radius: 25px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+
+
+    
+}
+.carousel-container  h2.title {
+  font-size: 52px;
+}
+  
+  .carousel-container .buttons-container {
+  height: 50px;
+  position: relative;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  border: 0.1rem solid rgba(89,88,68,0.08);
+}
+
+.carousel-container .swiper-pagination {
+  /* Add margin to center the pagination bullets */
+  margin-bottom: 10px;
+  text-align: center; /* Center horizontally */
+  font-size: 0.7rem;
+}
+
+.carousel-container .swiper-pagination-bullet{
+  font-size: 0.7rem;
+background-color: #333;
+}
+
+.carousel-container .swiper-button-prev:after,
+.carousel-container .swiper-button-next:after {
+  font-size: 0.7rem;
+  color: rgba(89, 88, 68, 0.75); /* Fixed the color value */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.carousel-container .swiper-button-prev {
+  margin-left: 10px; /* Add left margin */
+  position: absolute;
+    left: 47%;
+    transform: translate(-50px);
+}
+
+.carousel-container .swiper-button-next {
+  margin-right: 10px; /* Add right margin */
+    position: absolute;
+    right: 47%;
+    transform: translate(50px);
+}

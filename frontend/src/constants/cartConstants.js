@@ -1,0 +1,13 @@
+export const BUY_NOW_ITEM = "BUY_NOW_ITEM";
+
+export const ADD_TO_CART = "ADD_TO_CART";
+
+export const REMOVE_CART_ITEM = "REMOVE_CART_ITEM";
+
+export const DELETE_CART_ITEM = "DELETE_CART_ITEM";
+
+export const SAVE_SHIPPING_INFO = "SAVE_SHIPPING_INFO";
+
+export const SAVE_USER_EMAIL_INFO = "SAVE_USER_EMAIL_INFO";
+
+export const BUY_SUBSCRIBE_ITEM = "BUY_SUBSCRIBE_ITEM";

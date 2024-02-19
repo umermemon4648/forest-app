@@ -1,0 +1,55 @@
+
+/* Create a centered and flexible layout */
+.secondary-card {
+  margin: 50px auto;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1120px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #2e2a39; /* Light gray background */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.secondary-card.odd {
+  flex-direction: row-reverse;
+}
+
+.secondary-card.even {
+  flex-direction: row;
+}
+
+.secondary-card__image img {
+  display: block;
+ width: 100%;
+ max-width: 550px;
+ min-height:450px;
+ height: 100%;
+
+  transition: transform 0.2s ease;
+}
+.secondary-card__content {
+  flex: 1;
+  padding: 4rem;
+
+
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+  
+
+  .secondary-card__content {
+    text-align: left;
+    padding: 4rem 2rem;
+  }
+  .secondary-card{
+    display: block;
+  }
+  .secondary-card__image img {
+    min-height: unset;
+  }
+}

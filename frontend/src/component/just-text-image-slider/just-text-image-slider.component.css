@@ -1,0 +1,7 @@
+.JustTextImageSliderCss .swiper-pagination-bullet {
+    @apply mx-2 w-[10px] h-[10px] border-2 border-colorSecondary bg-transparent;
+}
+
+.JustTextImageSliderCss .swiper-pagination-bullet-active {
+    @apply bg-colorSecondary;
+}

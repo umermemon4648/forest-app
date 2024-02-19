@@ -1,0 +1,89 @@
+:root {
+  --gradient-bg: linear-gradient(360deg, rgba(173, 209, 141, 1), rgba(241, 235, 226, 1) 21%);
+
+}
+
+/* heroSection.component.css */
+
+.hero-section-component {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.heroSection {
+  max-width: 55rem;
+  width: 100%;
+
+}
+.bannerview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  animation: animateAmbient var(--animation-duration) linear infinite;
+}
+
+.bannerview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(60, 62, 60, 0.16), rgba(5, 62, 5, 0.671));
+  z-index: 1;
+}
+.banner-content {
+  padding: 35px;
+  position: relative;
+  text-align: center;
+  /* background: var(--gradient-background); */
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.hero-section-component h2.title {
+  font-size: 58px;
+  margin: 0;
+}
+.hero-section-component .titleElement .title{
+  color: white  !important;
+}
+.hero-section-component .textElement .text {
+ color: white  !important;
+}
+/* .hero-section-component .textElement .text {
+  font-size: 12px;
+  padding: 10px 0;
+} */
+
+@media screen and (max-width: 768px) {
+  .hero-section-component {
+    min-height: 80vh;
+  }
+
+  .hero-section-component h2.title {
+    font-size: 35px;
+  }
+
+  .bannerview {
+    position: unset;
+  }
+
+  .banner-content {
+    padding: 3rem;
+  }
+}

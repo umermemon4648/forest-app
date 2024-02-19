@@ -1,0 +1,28 @@
+.make-an-impact {
+  padding: 50px 0;
+}
+.make-an-impact .textElement .text 
+{
+   
+    font-weight: 400;
+
+}
+.card-containers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* gap: 10px; */
+  max-width: 1120px;
+  margin: 0 auto;
+  
+}
+@media screen and (max-width: 768px) {
+  
+  .make-an-impact {
+    padding: 50px 20px;
+  }
+
+  .card-containers {
+    display: block;
+
+  }}

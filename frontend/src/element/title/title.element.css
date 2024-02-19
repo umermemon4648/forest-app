@@ -1,0 +1,20 @@
+/* 
+.titleElement  .title-wrapper{
+
+    max-width: 1120px;
+    margin: 0 auto;
+} */
+.titleElement .title {
+    font-size: 56px;
+    font-weight: 900;
+    /* line-height: 0; */
+    color: var(--secondary-color); 
+    margin: 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+ 
+  .titleElement .title
+  {
+    font-size: 40px;
+  }}

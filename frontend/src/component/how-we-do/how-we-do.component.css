@@ -1,0 +1,20 @@
+.how-we-do .textElement .text 
+{
+    /* margin: 1em 0 2em 0em; */
+    color: white;
+    font-weight: 400;
+
+}
+
+
+.how-we-do .titleElement .title 
+{
+    margin:0;
+    color: white;
+}
+@media screen and (max-width: 768px) {
+    .how-we-do {
+      margin: 0px 20px;
+  }
+  
+}

@@ -1,0 +1,24 @@
+/* tertiaryCard.element.css */
+
+.tertiary-card {
+  flex-basis: calc(30% - 10px);
+}
+
+.tertiary-card .titleElement .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color:var(--secondary-color);
+  margin-bottom: 10px;
+}
+
+.tertiary-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 500px;
+ 
+}
+
+.tertiary-card__info {
+ text-align: center;
+}
