@@ -118,6 +118,12 @@ const allotTreeEachMonth = async () => {
     console.error("Error in Updating:", error);
   }
 };
-new cron("* * * * *", allotTreeEachMonth, null, true, "America/Los_Angeles");
+new cron(
+  "*/20 * * * * *",
+  allotTreeEachMonth,
+  null,
+  true,
+  "America/Los_Angeles"
+);
 
 module.exports = app;
