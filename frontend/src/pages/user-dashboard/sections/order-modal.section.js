@@ -35,6 +35,7 @@ const OrderModal = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showStripe, setStripe] = useState(false);
+  const [isResumeSubscription, setResumeSubscription] = useState(false);
   const [payLoading, setPayLoading] = useState(false);
   const [payError, setPayError] = useState(null);
 
@@ -68,18 +69,60 @@ const OrderModal = (props) => {
       }
     }
   };
+
   const resumeSubscriptionHandler = () => {
     const userConfirmed = window.confirm(
       "Are you sure you want to resume this subscription?"
     );
     if (userConfirmed) {
+      setResumeSubscription(true);
       setStripe(true);
     }
+  };
+  const editCardBtnHandler = () => {
+    setResumeSubscription(false);
+    setStripe(true);
   };
 
   const handleClose = () => {
     setStripe(false);
     props.onClose();
+  };
+
+  //? this is update card detail for existing subscription
+  const updateCardDetailHandler = async (e) => {
+    e.preventDefault();
+    setPayLoading(true);
+    setPayError(null);
+    try {
+      if (!stripe || !elements) return;
+
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardNumberElement),
+      });
+
+      if (error) {
+        setPayError(error.message);
+        setPayLoading(false);
+      } else {
+        await stripe.subscriptions.update(props?.data?.subscriptionId, {
+          default_payment_method: paymentMethod.id,
+        });
+        setPayLoading(false);
+        setStripe(false);
+        props.onClose();
+        window.location.reload();
+      }
+    } catch (error) {
+      setPayError(
+        "There`s some issue while processing payment, Wrong card or empty fields"
+      );
+      setPayLoading(false);
+      setStripe(false);
+      props.onClose();
+      window.location.reload();
+    }
   };
 
   const submitHandler = async (e) => {
@@ -162,7 +205,6 @@ const OrderModal = (props) => {
           setPayLoading(false);
         } else {
           if (result.paymentIntent.status === "succeeded") {
-            // setPayLoading(false);
             order.paymentInfo = {
               id: result?.paymentIntent?.id,
               status: result?.paymentIntent?.status,
@@ -225,17 +267,33 @@ const OrderModal = (props) => {
                   {!showStripe && (
                     <div>
                       {props?.data?.subscriptionStatus === "active" && (
-                        <button
-                          className="w-max bg-[#D5E5AC]  text-black text-sm px-6 py-2 rounded-md cursor-pointer capitalize"
-                          onClick={() =>
-                            pauseSubscriptionHandler(
-                              props?.data?.subscriptionId,
-                              props.data._id
-                            )
-                          }
-                        >
-                          Pause subscription
-                        </button>
+                        <div className="flex flex-row justify-between">
+                          <button
+                            className="w-max bg-[#D5E5AC]  text-black text-sm px-6 py-2 rounded-md cursor-pointer capitalize"
+                            onClick={() =>
+                              pauseSubscriptionHandler(
+                                props?.data?.subscriptionId,
+                                props.data._id
+                              )
+                            }
+                          >
+                            Pause subscription
+                          </button>
+                          <button
+                            className="w-max bg-[#D5E5AC]  text-black text-sm px-6 py-2 rounded-md cursor-pointer capitalize"
+                            // onClick={() =>
+                            //   pauseSubscriptionHandler(
+                            //     props?.data?.subscriptionId,
+                            //     props.data._id
+                            //   )
+                            // }
+                            onClick={() =>
+                              editCardBtnHandler(props.data?.subscriptionId)
+                            }
+                          >
+                            Edit Card detail
+                          </button>
+                        </div>
                       )}
                       {props?.data?.subscriptionStatus === "cancel" && (
                         <button
@@ -328,12 +386,18 @@ const OrderModal = (props) => {
                     <div>
                       <form
                         className="space-y-8"
-                        onSubmit={(e) => submitHandler(e)}
+                        onSubmit={(e) =>
+                          isResumeSubscription
+                            ? submitHandler(e)
+                            : updateCardDetailHandler(e)
+                        }
                       >
                         {/* Payment */}
                         <div className="space-y-3">
                           <h3 className="font-bold">
-                            Resume Subscription and Pay
+                            {isResumeSubscription
+                              ? "Resume Subscription and Pay"
+                              : "Edit Card Detail"}
                           </h3>
                           <p className="text-colorSecondaryLight">
                             All transactions are secure and encrypted.
@@ -381,7 +445,11 @@ const OrderModal = (props) => {
                           ) : (
                             <input
                               type="submit"
-                              value={`Pay $${props?.data?.price}`}
+                              value={
+                                isResumeSubscription
+                                  ? `Pay $${props?.data?.price}`
+                                  : "Update"
+                              }
                               // ref={payBtn}
                               className="bg-colorPrimary text-white text-sm font-semibold tracking-wider rounded-md p-5 cursor-pointer transition-all ease-in-out duration-150"
                             />

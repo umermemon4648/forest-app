@@ -43,6 +43,7 @@ export const buySubscribeItem =
     selectedPrice,
     monthlyPriceId,
     yearlyPriceId,
+    subscriptionType,
     couponApplicable
   ) =>
   async (dispatch, getState) => {
@@ -52,6 +53,7 @@ export const buySubscribeItem =
       type: BUY_SUBSCRIBE_ITEM,
       payload: {
         couponApplicable,
+        subscriptionType,
         quantity,
         monthlyPriceId,
         yearlyPriceId,

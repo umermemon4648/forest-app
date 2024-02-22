@@ -45,6 +45,9 @@ const emailSubscription = require("./routes/emailSubscriptionRoute");
 const media = require("./routes/mediaRoute");
 const coupon = require("./routes/couponRoute");
 const subscription = require("./routes/subscriptionRoute");
+const moment = require("moment/moment");
+const orderModel = require("./models/orderModel");
+const cron = require("cron").CronJob;
 
 // Use Routes
 app.use("/api/v1", coupon);
@@ -73,5 +76,48 @@ app.use((req, res) => {
     res.status(404).send("Route not found");
   }
 });
+
+const allotTreeEachMonth = async () => {
+  try {
+    const startOfMonth = moment()
+      .startOf("month")
+      .subtract(1, "month")
+      .toDate();
+    // const endOfMonth = moment().endOf("month").subtract(1, "month").toDate();
+    // console.log("......startOfMonth", startOfMonth);
+    // console.log("......endOfMonth", endOfMonth);
+    const data = await orderModel.find({
+      subscriptionStatus: "active",
+      treeCount: { $lt: 12 },
+      "paymentInfo.subscriptionId": { $ne: null },
+      "paymentInfo.subscriptionDuration": "yearly",
+      // lastUpdateDate: {
+      //   $gt: startOfMonth,
+      // },
+    });
+    if (data.length > 0) {
+      console.log(data);
+      let a = await Promise.all(
+        data.map(async (i) => {
+          await orderModel.updateOne(
+            { _id: i?._id },
+            {
+              $inc: { treeCount: 1 },
+              $set: {
+                lastUpdateDate: new Date(),
+              },
+            }
+          );
+        })
+      );
+    }
+
+    // console.log("update............", update);
+    // await Promise.all(update);
+  } catch (error) {
+    console.error("Error in Updating:", error);
+  }
+};
+new cron("* * * * *", allotTreeEachMonth, null, true, "America/Los_Angeles");
 
 module.exports = app;

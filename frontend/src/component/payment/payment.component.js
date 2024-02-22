@@ -185,6 +185,10 @@ const PaymentSection = (props) => {
               priceId:
                 order?.orderItems[0]?.monthlyPriceId ||
                 order?.orderItems[0]?.yearlyPriceId,
+
+              subscriptionDuration: buySubscribeItem[0]
+                ? buySubscribeItem[0]?.subscriptionType
+                : null,
             };
 
             dispatch(createOrder(order));
@@ -262,6 +266,9 @@ const PaymentSection = (props) => {
               priceId:
                 order?.orderItems[0]?.monthlyPriceId ||
                 order?.orderItems[0]?.yearlyPriceId,
+              subscriptionDuration: buySubscribeItem[0]
+                ? buySubscribeItem[0]?.subscriptionType
+                : null,
             };
 
             dispatch(createOrder(order));

@@ -128,6 +128,7 @@ const ProductDetail = () => {
             actualPrice,
             monthlyPriceId,
             yearlyPriceId,
+            selectSubscriptionType,
             couponApplicable
           )
         );
@@ -157,7 +158,7 @@ const ProductDetail = () => {
     dispatch(getProductDetails(paramId));
     dispatch(getProduct(1, [0, 25000], "all", 0));
   }, [dispatch, paramId, error, loading]);
-  // console.log("discount===========>", discount);
+
   useEffect(() => {
     if (
       product &&
@@ -198,15 +199,16 @@ const ProductDetail = () => {
       setYearlyPriceId(null);
       setMonthlyDelivery(product?.subscriptions?.monthlyPrice);
       setYearlyDelivery(
-        product?.subscriptions?.monthlyPrice -
-          product?.subscriptions?.monthlyPrice * discount
+        product?.subscriptions?.yearlyPrice -
+          product?.subscriptions?.yearlyPrice * discount
       );
-      setActualPrice(product?.subscriptions?.monthlyPrice);
+      setActualPrice(product?.subscriptions?.yearlyPrice);
     }
     if (product?.productType === "variants") {
       setVariant(product?.variants[0].options[0]);
     }
   }, [product?.productType, discount]);
+
   useEffect(() => {
     const getCouponsDiscount = async () => {
       try {
@@ -227,10 +229,10 @@ const ProductDetail = () => {
 
     getCouponsDiscount();
   }, [discount]);
-  console.log("discount : ", discount);
+  console.log("selectedFrequency : ", selectedFrequency);
   console.log("actuall : ", actualPrice);
+  console.log("selectSubscriptionType : ", selectSubscriptionType);
   const radius = 50;
-  // const discount = 10 / 100;
   return (
     <div>
       {/* loading */}
@@ -329,7 +331,8 @@ const ProductDetail = () => {
                     USD
                   </p>
                   {product?.productType === "subscription" &&
-                    selectedFrequency !== actualPrice &&
+                    // selectedFrequency !== actualPrice &&
+                    selectSubscriptionType === "yearly" &&
                     actualPrice !== null &&
                     actualPrice !== undefined && (
                       <>
@@ -387,18 +390,13 @@ const ProductDetail = () => {
                 )}
 
               {/* subscriptions */}
-              {product?.productType === "subscription" &&
+              {/* {product?.productType === "subscription" &&
                 product?.subscriptions?.monthlyPrice && (
                   <div>
                     <p className="text-colorSecondaryLight text-xs">
                       Frequency
                     </p>
                     <div className="flex items-center flex-wrap">
-                      {/* {
-                                            product?.variants[0]?.options && product?.variants[0]?.options.map((option) => (
-                                                <div key={option?._id} onClick={() => { setSelectedPrice(option?.price); setSelectedStock(option?.stock) }} className={`${selectedPrice === option?.price ? 'bg-colorSecondary text-colorFifth' : 'bg-colorFifth hover:bg-colorSecondary text-colorSecondary hover:text-colorFifth'} px-6 py-1 rounded-lg cursor-pointer m-1`}>{option?.name}</div>
-                                            ))
-                                        } */}
                       {product?.subscriptions?.monthlyPrice && (
                         <button
                           ref={buttonRef}
@@ -459,13 +457,6 @@ const ProductDetail = () => {
                               product?.subscriptions?.yearlyPrice
                             );
                           }}
-                          //   className={`${
-                          //     selectedPrice ===
-                          //     product?.subscriptions?.yearlyPrice
-                          //       ? "bg-colorSecondary text-colorFifth"
-                          //       : "bg-colorFifth hover:bg-colorSecondary text-colorSecondary hover:text-colorFifth"
-                          //   } px-6 py-1 rounded-lg cursor-pointer m-1`}
-                          // >
                           className={`${
                             selectSubscriptionType === "yearly"
                               ? "bg-colorSecondary text-colorFifth"
@@ -477,7 +468,7 @@ const ProductDetail = () => {
                       )}
                     </div>
                   </div>
-                )}
+                )} */}
 
               {/* {
                                 product?.productType === 'variant' && product?.variants[0].type === 'Country' &&
@@ -622,7 +613,7 @@ const ProductDetail = () => {
                         <span className="text-colorSecondaryLight leading-7 tracking-wide">
                           ${selectedPrice}
                         </span>
-                        {selectedFrequency !== actualPrice &&
+                        {selectSubscriptionType === "yearly" &&
                           actualPrice !== null &&
                           actualPrice !== undefined && (
                             <span className="text-colorSecondaryLight leading-7 tracking-wide line-through">
@@ -641,7 +632,10 @@ const ProductDetail = () => {
                           id="annual"
                           className=" mr-2"
                           name="deliveryFrequency"
-                          onChange={(e) => frequencyChangeHandler(e)}
+                          onChange={(e) => {
+                            frequencyChangeHandler(e);
+                            setSelectSubscriptionType("yearly");
+                          }}
                           checked={
                             selectedFrequency === parseFloat(yearlyDelivery)
                           }
@@ -649,7 +643,7 @@ const ProductDetail = () => {
                         />
                         <label htmlFor="annual">
                           <span className="capitalize pr-1">yearly</span>
-                          <span>(${yearlyDelivery}/delivery)</span>
+                          <span>(${yearlyDelivery?.toFixed(2)}/delivery)</span>
                         </label>
                       </div>
 
@@ -659,7 +653,10 @@ const ProductDetail = () => {
                           id="monthly"
                           className=" mr-2"
                           name="deliveryFrequency"
-                          onChange={(e) => frequencyChangeHandler(e)}
+                          onChange={(e) => {
+                            frequencyChangeHandler(e);
+                            setSelectSubscriptionType("monthly");
+                          }}
                           checked={
                             selectedFrequency === parseFloat(monthlyDelivery)
                           }
@@ -667,7 +664,7 @@ const ProductDetail = () => {
                         />
                         <label htmlFor="monthly">
                           <span className="capitalize pr-1">monthly</span>
-                          <span>(${monthlyDelivery}/delivery)</span>
+                          <span>(${monthlyDelivery?.toFixed(2)}/delivery)</span>
                         </label>
                       </div>
                     </div>

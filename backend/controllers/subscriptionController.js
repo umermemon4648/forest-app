@@ -128,6 +128,26 @@ exports.getSubSubsList = catchAsyncErrors(async (req, res) => {
   res.status(200).json(subscriptions);
 });
 
+// update card detail
+exports.updateCardDetail = catchAsyncErrors(async (req, res) => {
+  const { subscriptionId, paymentMethodId } = req.body;
+  try {
+    await stripe.subscriptions.update(subscriptionId, {
+      default_payment_method: paymentMethodId,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Updated Card Detail.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update card details.",
+      error: error.message,
+    });
+  }
+});
+
 // exports.session = catchAsyncErrors(async (req, res) => {
 //   const { stripe_customerId, priceId } = req.body;
 //   const session = await stripe.checkout.sessions.create({

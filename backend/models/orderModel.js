@@ -133,6 +133,10 @@ const orderSchema = new mongoose.Schema({
       type: String,
       default: null,
     },
+    subscriptionDuration: {
+      type: String,
+      default: null,
+    },
   },
   itemsPrice: {
     type: Number,
@@ -182,6 +186,14 @@ const orderSchema = new mongoose.Schema({
   subscriptionStatus: {
     type: String,
     enum: ["active", "cancel"],
+  },
+
+  treeCount: {
+    type: Number,
+    default: 1,
+  },
+  lastUpdateDate: {
+    type: Date,
   },
 });
 

@@ -69,6 +69,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     email: userEmail,
     emailOffers,
     orderNumber,
+    lastUpdateDate: new Date(),
     ...(isSubscriptionProduct ? { subscriptionStatus: "active" } : {}),
     ...(isVariantProduct ? { variant: variant } : {}),
   });
