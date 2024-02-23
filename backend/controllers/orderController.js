@@ -302,6 +302,56 @@ exports.getOrdersByEmail = catchAsyncErrors(async (req, res, next) => {
   });
 });
 // Get Order Items by Email
+// exports.getOrderItemsByEmail = catchAsyncErrors(async (req, res, next) => {
+//   const userEmail = req.params.email;
+
+//   const orders = await Order.find({ email: userEmail });
+
+//   const orderItemsMap = new Map(); // Use a Map to store unique order items
+
+//   orders.forEach((order) => {
+//     let subscription = null;
+//     if (order.paymentInfo.subscriptionId) {
+//       subscription = order.paymentInfo.subscriptionId;
+//     }
+//     order.orderItems.forEach((item) => {
+//       let key = item.product.toString();
+//       if (item.productType === "subscription")
+//         key = key + Math.floor(Math.random() * 1000000);
+//       if (orderItemsMap.has(key) && item.productType !== "subscription") {
+//         const existingItem = orderItemsMap.get(key);
+//         existingItem.purchaseCount += 1;
+//         existingItem.quantity += item.quantity;
+//       } else {
+//         orderItemsMap.set(key, {
+//           _id: order._id,
+//           priceId: order.paymentInfo.priceId,
+//           product: item.product,
+//           name: item.name,
+//           price: item.price,
+//           image: item.image,
+//           quantity: item.quantity,
+//           countries: item.countries,
+//           purchaseCount: 1,
+//           type: item.productType,
+//           subscriptionId: subscription,
+//           ...(item.productType === "subscription"
+//             ? { subscriptionStatus: order.subscriptionStatus }
+//             : {}),
+//         });
+//       }
+//     });
+//   });
+
+//   const orderItems = Array.from(orderItemsMap.values());
+
+//   res.status(200).json({
+//     success: true,
+//     orderItems,
+//     orderCount: orderItems.length,
+//   });
+// });
+
 exports.getOrderItemsByEmail = catchAsyncErrors(async (req, res, next) => {
   const userEmail = req.params.email;
 
@@ -310,30 +360,27 @@ exports.getOrderItemsByEmail = catchAsyncErrors(async (req, res, next) => {
   const orderItemsMap = new Map(); // Use a Map to store unique order items
 
   orders.forEach((order) => {
-    let subscription = null;
-    if (order.paymentInfo.subscriptionId) {
-      subscription = order.paymentInfo.subscriptionId;
-    }
+    const subscription = order.paymentInfo.subscriptionId || null;
+
+    let firstSubscriptionOrderItem = null;
     order.orderItems.forEach((item) => {
-      let key = item.product.toString();
-      if (item.productType === "subscription")
-        key = key + Math.floor(Math.random() * 1000000);
+      const key = item.product.toString();
+      if (item.productType === "subscription") {
+        if (!firstSubscriptionOrderItem) {
+          firstSubscriptionOrderItem = {
+            ...getOrderItemDetails(order, item),
+            subscriptionId: subscription,
+            subscriptionStatus: order.subscriptionStatus,
+          };
+        }
+      }
+
       if (orderItemsMap.has(key) && item.productType !== "subscription") {
         const existingItem = orderItemsMap.get(key);
-        existingItem.purchaseCount += 1;
-        existingItem.quantity += item.quantity;
+        updateExistingItem(existingItem, item);
       } else {
         orderItemsMap.set(key, {
-          _id: order._id,
-          priceId: order.paymentInfo.priceId,
-          product: item.product,
-          name: item.name,
-          price: item.price,
-          image: item.image,
-          quantity: item.quantity,
-          countries: item.countries,
-          purchaseCount: 1,
-          type: item.productType,
+          ...getOrderItemDetails(order, item),
           subscriptionId: subscription,
           ...(item.productType === "subscription"
             ? { subscriptionStatus: order.subscriptionStatus }
@@ -341,6 +388,11 @@ exports.getOrderItemsByEmail = catchAsyncErrors(async (req, res, next) => {
         });
       }
     });
+
+    if (firstSubscriptionOrderItem) {
+      const key = firstSubscriptionOrderItem.product.toString();
+      orderItemsMap.set(key, firstSubscriptionOrderItem);
+    }
   });
 
   const orderItems = Array.from(orderItemsMap.values());
@@ -351,6 +403,28 @@ exports.getOrderItemsByEmail = catchAsyncErrors(async (req, res, next) => {
     orderCount: orderItems.length,
   });
 });
+
+// Helper function to get order item details
+const getOrderItemDetails = (order, item) => ({
+  _id: order._id,
+  priceId: order.paymentInfo.priceId,
+  product: item.product,
+  name: item.name,
+  price: item.price,
+  image: item.image,
+  quantity: item.quantity,
+  countries: item.countries,
+  purchaseCount: 1,
+  type: item.productType,
+  priceId: order.paymentInfo.subscriptionDuration,
+  treeCount: order.treeCount,
+});
+
+// Helper function to update existing item with new values
+const updateExistingItem = (existingItem, newItem) => {
+  existingItem.purchaseCount += 1;
+  existingItem.quantity += newItem.quantity;
+};
 
 // Update Order Status by Email
 exports.updateOrderStatusByEmail = catchAsyncErrors(async (req, res, next) => {

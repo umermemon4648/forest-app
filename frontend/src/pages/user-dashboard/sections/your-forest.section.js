@@ -46,9 +46,14 @@ const YourForest = (props) => {
     );
     setSortedOrders(e.target.value === "all" ? props?.orders : filterCountries);
   }
-
+  console.log("props?.order", props?.orders);
   const ProductCard = ({ order }) => {
     const { countries } = useGetCountriesByIds(order?.countries);
+    const subscriptionOrders = props?.orders.filter(
+      (i) => i.type === "subscription" && i._id === order?._id
+    );
+    console.log("subscriptionOrders --------------", subscriptionOrders);
+
     return (
       <div
         onClick={() => {
