@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState, useRef, useCallback } from "react";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 import _ from "lodash";
@@ -15,10 +15,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import useGetCountriesByIds from "../../../hooks/useGetCountriesById";
 import numeral from "numeral";
+import GoogleMapComponent from "./GoogleMapComponent";
 
 const PlantationCoverage = (props) => {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const imageBaseUrl = process.env.REACT_APP_IMAGE_BASE_URL;
+  const [shouldRenderGoogleMap, setShouldRenderGoogleMap] = useState(true);
 
   const searchWord = "gift"; // The word you want to search for (case-insensitive)
 
@@ -30,8 +32,8 @@ const PlantationCoverage = (props) => {
     {
       name: "Planted",
       icon: TreeSvg,
-      value: `${props.userTotalTrees?.totalNoOfItems || 0} Tree${
-        props.userTotalTrees?.totalNoOfItems > 1 ? "s" : ""
+      value: `${props?.userTotalTrees?.totalNoOfItems || 0} Tree${
+        props?.userTotalTrees?.totalNoOfItems > 1 ? "s" : ""
       }`,
     },
     {
@@ -45,7 +47,7 @@ const PlantationCoverage = (props) => {
       name: "Kilograms Absorbed",
       icon: TonneSvg,
       value: `${
-        numeral(props.userTotalTrees?.totalNoOfCo2 * 1000).format("0,0") || 0
+        numeral(props?.userTotalTrees?.totalNoOfCo2 * 1000).format("0,0") || 0
       } CO2`,
     },
   ];
@@ -59,6 +61,7 @@ const PlantationCoverage = (props) => {
           "Content-Type": "application/json",
         },
       });
+      console.log("me res.datatatattatattat .......", data?.countries);
       setAllCountries(data?.countries);
     } catch (error) {
       //   setError(error.response.data.message);
@@ -69,6 +72,11 @@ const PlantationCoverage = (props) => {
   useEffect(() => {
     getAllCountries();
   }, []);
+
+  console.log(
+    "Ge countreus00-------------",
+    useGetCountriesByIds("654379ce1fe943768c5460f6")
+  );
 
   const PIN_COMPONENT = ({ item, index }) => {
     const { countries } = useGetCountriesByIds(item.countries);
@@ -178,7 +186,7 @@ const PlantationCoverage = (props) => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4">
           {/* card */}
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <div
               key={index}
               className="bg-colorFifth border border-colorPrimary flex items-center rounded-lg shadow-lg p-5 space-x-5"
@@ -187,8 +195,8 @@ const PlantationCoverage = (props) => {
               <div>
                 <div className="w-10 lg:w-14 h-10 lg:h-14 flex items-center justify-center border border-colorSecondaryLight rounded-full">
                   <img
-                    src={item.icon}
-                    alt={item.name}
+                    src={item?.icon}
+                    alt={item?.name}
                     className="w-5 lg:w-8 h-auto"
                   />
                 </div>
@@ -196,13 +204,13 @@ const PlantationCoverage = (props) => {
               {/* content */}
               <div>
                 {props.totalTreesLoading && <Spinner rootClass="w-5 h-5" />}
-                {!props.totalTreesLoading && !_.isUndefined(item.value) && (
+                {!props.totalTreesLoading && !_.isUndefined(item?.value) && (
                   <h4 className="text-colorSecondary text-sm lg:text-base font-semibold whitespace-nowrap">
-                    {item.value}
+                    {item?.value}
                   </h4>
                 )}
                 <p className="text-colorSecondaryLight text-xs font-light">
-                  {item.name}
+                  {item?.name}
                 </p>
               </div>
             </div>
@@ -210,21 +218,25 @@ const PlantationCoverage = (props) => {
         </div>
       </div>
       {/* map */}
-      <div className="relative">
+      {/* <div className="relative"> */}
+      <div className="">
         <div>
-          <img
+          {/* <img
             src={mapSvg}
             alt="map"
             className="w-full h-auto hidden md:block"
-          />
-          <img
+          /> */}
+
+          <GoogleMapComponent />
+          {/* {props && <GoogleMapComponent />} */}
+          {/* <img
             src={mapSmallSvg}
             alt="map"
             className="w-full h-auto block md:hidden"
-          />
+          /> */}
         </div>
         {/* pins */}
-        <div className="absolute inset-0 w-full h-full grid grid-cols-2">
+        {/* <div className="absolute inset-0 w-full h-full grid grid-cols-2">
           <div className="flex items-center justify-center">
             <div className="relative md:-left-20 w-20 h-20">
               {!_.isNil(props?.orders) &&
@@ -239,11 +251,6 @@ const PlantationCoverage = (props) => {
           </div>
           <div className="flex items-center justify-center">
             <div className="relative w-20 h-20">
-              {/* {
-                                [...Array(5)].map((item, index) => (
-                                    <PIN_COMPONENT index={index} item={item} />
-                                ))
-                            } */}
               {!_.isNil(props?.orders) &&
                 !_.isNil(allCountries) &&
                 props?.orders
@@ -278,7 +285,7 @@ const PlantationCoverage = (props) => {
                   ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

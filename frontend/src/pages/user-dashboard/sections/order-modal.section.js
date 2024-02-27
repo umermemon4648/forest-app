@@ -317,8 +317,7 @@ const OrderModal = (props) => {
                       )}
                       {/* content */}
                       <div className="flex flex-col items-center text-center mt-4 space-y-2">
-                        {props?.data?.type === "subscription" &&
-                        props?.data?.priceId === "yearly" ? (
+                        {props?.data?.type === "subscription" ? (
                           <h3 className="text-colorFourth text-lg font-bold capitalize">
                             {props?.data?.treeCount}x {props?.data?.name}
                           </h3>
@@ -327,7 +326,6 @@ const OrderModal = (props) => {
                             {props?.data?.quantity}x {props?.data?.name}
                           </h3>
                         )}
-                        {/* <p className="text-colorSecondaryLight text-xs font-light capitalize">date here</p> */}
                         <p className="text-colorSecondaryLight text-xs capitalize">
                           Funded by you
                         </p>
