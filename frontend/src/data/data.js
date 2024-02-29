@@ -79,3 +79,32 @@ const mozambiqueCoordinates = [
   { lat: -23.8646, lng: 35.3848 }, // Jangamo
   { lat: -25.4139, lng: 34.7251 }, // Zavala
 ];
+
+// export const getLatLongForCountry = (country) => {
+//   switch (country.toLowerCase()) {
+//     case "zimbabwe":
+//       return zimbabweCoordinates;
+//     case "south africa":
+//       return southArficaCoordinates;
+//     case "ethiopia":
+//       return ethiopiaCoordinates;
+//     case "mozambique":
+//       return mozambiqueCoordinates;
+//     default:
+//       return [{ lat: 0, lng: 0 }];
+//   }
+// };
+export const getLatLongForCountry = (country) => {
+  const coordinates = {
+    zimbabwe: zimbabweCoordinates,
+    "our forest": zimbabweCoordinates,
+    "south africa": southArficaCoordinates,
+    ethiopia: ethiopiaCoordinates,
+    mozambique: mozambiqueCoordinates,
+  }[country?.toLowerCase()?.trim()] || [{ lat: 0, lng: 0 }];
+
+  // Shuffle the coordinates array randomly
+  const shuffledCoordinates = [...coordinates]?.sort(() => Math.random() - 0.5);
+
+  return shuffledCoordinates[0] || [{ lat: 0, lng: 0 }];
+};

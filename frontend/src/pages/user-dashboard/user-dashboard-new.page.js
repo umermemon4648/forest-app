@@ -44,6 +44,7 @@ const UserDashboardNew = () => {
   // ORDERS
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [userOrders, setUserOrders] = useState([]);
+  const [productArray, setProductArray] = useState([]);
 
   const [openModal, setOpenModal] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
@@ -180,10 +181,14 @@ const UserDashboardNew = () => {
         }
       );
       setUserOrders(data.orderItems);
+      setProductArray(data?.productsArray);
       setOrdersLoading(false);
     } catch (error) {
       console.log(error.response.data.message);
       setUserOrders([]);
+
+      setProductArray([]);
+
       setOrdersLoading(false);
     }
   }
@@ -274,6 +279,7 @@ const UserDashboardNew = () => {
               orders={userOrders}
               userTotalTrees={userTotalTrees}
               totalTreesLoading={userTotalTreesLoading}
+              productArray={productArray}
             />
             <YourForestSection orders={userOrders} loading={ordersLoading} />
             <BadgesSection
@@ -290,6 +296,7 @@ const UserDashboardNew = () => {
               name={user?.firstName + " " + user?.lastName}
               userTotalTrees={userTotalTrees}
               totalTreesLoading={userTotalTreesLoading}
+              productArray={productArray}
             />
           </div>
         )}

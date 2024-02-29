@@ -3,7 +3,7 @@ const Product = require("../models/productModel");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/errorhandler");
 const SendEmail = require("../utils/sendEmail");
-
+const { v4: uuidv4 } = require("uuid");
 // Function to update product stock
 async function updateStock(id, quantity) {
   const product = await Product.findById(id);
@@ -355,7 +355,12 @@ exports.getOrdersByEmail = catchAsyncErrors(async (req, res, next) => {
 exports.getOrderItemsByEmail = catchAsyncErrors(async (req, res, next) => {
   const userEmail = req.params.email;
 
-  const orders = await Order.find({ email: userEmail });
+  const orders = await Order.find({ email: userEmail })
+    .populate({
+      path: "orderItems.product",
+      model: "Product",
+    })
+    .populate("orderItems.countries");
 
   const orderItemsMap = new Map(); // Use a Map to store unique order items
 
@@ -396,10 +401,39 @@ exports.getOrderItemsByEmail = catchAsyncErrors(async (req, res, next) => {
   });
 
   const orderItems = Array.from(orderItemsMap.values());
+  let productsArray = [];
+  const productMap = new Map();
+  orderItems?.forEach((order) => {
+    if (order?.type === "simple") {
+      for (let i = 0; i < order?.quantity; i++) {
+        const calculatedProduct = {
+          country: order?.countries[0],
+          product: { ...order?.product.toObject() },
+          type: order?.type,
+          uniqueId: uuidv4(),
+        };
+        const key = JSON.stringify({ ...calculatedProduct, index: i });
+        productMap.set(key, calculatedProduct);
+      }
+    } else if (order?.type === "subscription") {
+      for (let i = 0; i < order?.treeCount; i++) {
+        const calculatedProduct = {
+          country: order?.countries[0],
+          product: { ...order?.product?.toObject() },
+          type: order?.type,
+          uniqueId: uuidv4(),
+        };
+        const key = JSON.stringify({ ...calculatedProduct, index: i });
+        productMap.set(key, calculatedProduct);
+      }
+    }
+  });
 
+  productsArray = Array.from(productMap.values());
   res.status(200).json({
     success: true,
     orderItems,
+    productsArray,
     orderCount: orderItems.length,
   });
 });

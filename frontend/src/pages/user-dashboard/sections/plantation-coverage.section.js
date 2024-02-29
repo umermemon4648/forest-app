@@ -32,8 +32,10 @@ const PlantationCoverage = (props) => {
     {
       name: "Planted",
       icon: TreeSvg,
-      value: `${props?.userTotalTrees?.totalNoOfItems || 0} Tree${
-        props?.userTotalTrees?.totalNoOfItems > 1 ? "s" : ""
+      value: `${props?.productArray?.length} Tree${
+        props?.productArray?.length > 1 ? "s" : ""
+        // value: `${props?.userTotalTrees?.totalNoOfItems || 0} Tree${
+        //   props?.userTotalTrees?.totalNoOfItems > 1 ? "s" : ""
       }`,
     },
     {
@@ -61,7 +63,6 @@ const PlantationCoverage = (props) => {
           "Content-Type": "application/json",
         },
       });
-      console.log("me res.datatatattatattat .......", data?.countries);
       setAllCountries(data?.countries);
     } catch (error) {
       //   setError(error.response.data.message);
@@ -72,11 +73,6 @@ const PlantationCoverage = (props) => {
   useEffect(() => {
     getAllCountries();
   }, []);
-
-  console.log(
-    "Ge countreus00-------------",
-    useGetCountriesByIds("654379ce1fe943768c5460f6")
-  );
 
   const PIN_COMPONENT = ({ item, index }) => {
     const { countries } = useGetCountriesByIds(item.countries);
@@ -110,11 +106,6 @@ const PlantationCoverage = (props) => {
           }}
         >
           <div className="w-60 relative">
-            {/* close icon */}
-            {/* <div className="absolute top-4 right-4 bg-red-900">
-                                                    <Icon icon="carbon:close-filled" />
-                                                </div> */}
-            {/* image */}
             <div
               className="w-full h-32 bg-colorPrimaryLight rounded-xl bg-cover bg-no-repeat bg-center"
               style={{ backgroundImage: `url(${imageBaseUrl + item?.image})` }}
@@ -143,24 +134,16 @@ const PlantationCoverage = (props) => {
                           </li>
                         ))}
                     </ul>
-                    {/* <p className="text-xs capitalize">location</p> */}
                   </div>
                 )}
-                {/* <div className="w-max bg-colorPrimaryLight text-colorFourth flex items-center space-x-1 px-2 py-px rounded">
-                                    <Icon icon="gridicons:location" className='w-3 h-auto' />
-                                    <p className="text-xs capitalize">location</p>
-                                </div> */}
-                <div>
-                  {/* <p className="text-colorSecondaryLight text-xs font-light capitalize">date here</p> */}
-                </div>
+
+                <div></div>
               </div>
               <p className="text-colorSecondaryLight text-xs capitalize">
                 Unique ID: {item?.product}
               </p>
               <div className="flex items-center justify-between">
-                <div>
-                  {/* <p className="text-colorSecondaryLight text-xs capitalize">Partner: Our Forest</p> */}
-                </div>
+                <div></div>
                 <Link to={`/product/${item?.product}`}>
                   <div className="w-max bg-colorPrimary text-colorFifth text-sm px-2 py-1 rounded-md cursor-pointer">
                     Learn More
@@ -227,7 +210,7 @@ const PlantationCoverage = (props) => {
             className="w-full h-auto hidden md:block"
           /> */}
 
-          <GoogleMapComponent />
+          <GoogleMapComponent orders={props} />
           {/* {props && <GoogleMapComponent />} */}
           {/* <img
             src={mapSmallSvg}

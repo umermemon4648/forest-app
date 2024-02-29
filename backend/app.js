@@ -77,47 +77,41 @@ app.use((req, res) => {
   }
 });
 
-// const allotTreeEachMonth = async () => {
-//   try {
-//     const startOfMonth = moment().startOf("month").toDate();
-//     const data = await orderModel.find({
-//       subscriptionStatus: "active",
-//       treeCount: { $lt: 12 },
-//       "paymentInfo.subscriptionId": { $ne: null },
-//       "paymentInfo.subscriptionDuration": "yearly",
-//       lastUpdateDate: {
-//         $lt: startOfMonth,
-//       },
-//     });
-//     if (data.length > 0) {
-//       console.log(data);
-//       await Promise.all(
-//         data.map(async (i) => {
-//           const orderItemCopy = i?.orderItems[0];
-//           console.log("orderItem", orderItemCopy);
-//           await orderModel.updateOne(
-//             { _id: i?._id },
-//             {
-//               $push: { orderItems: orderItemCopy },
-//               $inc: { treeCount: 1 },
-//               $set: {
-//                 lastUpdateDate: new Date(),
-//               },
-//             }
-//           );
-//         })
-//       );
-//     }
-//   } catch (error) {
-//     console.error("Error in Updating:", error);
-//   }
-// };
-// new cron(
-//   "*/20 * * * * *",
-//   allotTreeEachMonth,
-//   null,
-//   true,
-//   "America/Los_Angeles"
-// );
+const allotTreeEachMonth = async () => {
+  try {
+    const startOfMonth = moment().startOf("month").toDate();
+    const data = await orderModel.find({
+      subscriptionStatus: "active",
+      treeCount: { $lt: 12 },
+      "paymentInfo.subscriptionId": { $ne: null },
+      "paymentInfo.subscriptionDuration": "yearly",
+      lastUpdateDate: {
+        $lt: startOfMonth,
+      },
+    });
+    if (data.length > 0) {
+      console.log(data);
+      await Promise.all(
+        data.map(async (i) => {
+          const orderItemCopy = i?.orderItems[0];
+          console.log("orderItem", orderItemCopy);
+          await orderModel.updateOne(
+            { _id: i?._id },
+            {
+              $push: { orderItems: orderItemCopy },
+              $inc: { treeCount: 1 },
+              $set: {
+                lastUpdateDate: new Date(),
+              },
+            }
+          );
+        })
+      );
+    }
+  } catch (error) {
+    console.error("Error in Updating:", error);
+  }
+};
+new cron("0 0 1 * *", allotTreeEachMonth, null, true, "America/Los_Angeles");
 
 module.exports = app;

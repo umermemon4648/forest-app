@@ -346,20 +346,20 @@ const OrderModal = (props) => {
                             {/* <p className="text-xs capitalize">location</p> */}
                           </div>
                         )}
-                        {props?.data?.product && (
+                        {props?.data?.product?._id && (
                           <p className="text-colorSecondaryLight text-xs capitalize">
-                            Unique ID: {props?.data?.product}
+                            Unique ID: {props?.data?.product?._id}
                           </p>
                         )}
-                        {props?.data?.product && (
-                          <Link to={`/product/${props?.data?.product}`}>
+                        {props?.data?.product?._id && (
+                          <Link to={`/product/${props?.data?.product?._id}`}>
                             <div className="w-max bg-colorPrimary text-colorFifth text-sm px-2 py-1 rounded-md cursor-pointer">
                               Learn More
                             </div>
                           </Link>
                         )}
 
-                        {props?.data?.product && (
+                        {props?.data?.product?._id && (
                           <button
                             onClick={() =>
                               cancelSubscriptionHandler(
