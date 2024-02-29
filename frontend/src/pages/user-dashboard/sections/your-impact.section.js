@@ -5,7 +5,6 @@ import TonneSvg from "../../../assets/images/co2-svgrepo-com.svg";
 import numeral from "numeral";
 const YourImpact = (props) => {
   const currentYear = new Date().getFullYear();
-  console.log("beta propos hun ", props);
   return (
     <div className="flex flex-col items-center justify-center text-center bgGradientSecondary border border-colorPrimary p-6 md:p-12 space-y-20">
       <div className="space-y-4">

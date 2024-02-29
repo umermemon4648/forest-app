@@ -72,8 +72,7 @@ const ProductDetail = () => {
     setSelectedPrice(selectedFreq);
     const selectedType =
       selectedFreq == parseFloat(monthlyDelivery) ? "monthly" : "yearly";
-    // console.log("selected Price: ", e.t);
-    // console.log("selected type: ", selectedType);
+ 
   };
 
   const addToCartHandler = () => {
@@ -100,8 +99,7 @@ const ProductDetail = () => {
       }, 1000);
     } else {
       if (product?.productType == "variant" && variant == null) {
-        setVariant(product?.variants[0].options[0]);
-        console.log(product?.variants[0].options[0]);
+        setVariant(product?.variants[0].options[0]); 
       }
       dispatch(
         addItemsToCart(paramId, quantity, selectedPrice, selectedStock, variant)
@@ -213,7 +211,7 @@ const ProductDetail = () => {
     const getCouponsDiscount = async () => {
       try {
         const res = await axios.get(`${apiBaseUrl}/api/v1/getCouponList`);
-        console.log("got you here");
+      
         if (res?.data?.success === true && res?.data?.coupons?.length > 0) {
           console.log(
             "res.data.coupons[0].percent_off",
@@ -228,10 +226,7 @@ const ProductDetail = () => {
     };
 
     getCouponsDiscount();
-  }, [discount]);
-  console.log("selectedFrequency : ", selectedFrequency);
-  console.log("actuall : ", actualPrice);
-  console.log("selectSubscriptionType : ", selectSubscriptionType);
+  }, [discount]); 
   const radius = 50;
   return (
     <div>

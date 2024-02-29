@@ -84,17 +84,14 @@ const allotTreeEachMonth = async () => {
       subscriptionStatus: "active",
       treeCount: { $lt: 12 },
       "paymentInfo.subscriptionId": { $ne: null },
-      "paymentInfo.subscriptionDuration": "yearly",
       lastUpdateDate: {
         $lt: startOfMonth,
       },
     });
     if (data.length > 0) {
-      console.log(data);
       await Promise.all(
         data.map(async (i) => {
           const orderItemCopy = i?.orderItems[0];
-          console.log("orderItem", orderItemCopy);
           await orderModel.updateOne(
             { _id: i?._id },
             {

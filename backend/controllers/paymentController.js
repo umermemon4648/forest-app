@@ -10,8 +10,7 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
       company: "OurForest",
     },
   });
-
-  // console.log(myPayment);
+ 
 
   res
     .status(200)

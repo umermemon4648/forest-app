@@ -8,7 +8,7 @@ console.log("stripe_key: ", process.env.STRIPE_SECRET_KEY);
 
 exports.createSubSubscription = catchAsyncErrors(async (req, res) => {
   const { priceId, customerId, coupon } = req.body;
-  // console.log(req.body);
+  
   try {
     // Create a new subscription in Stripe
     const subscription = await stripe.subscriptions.create({

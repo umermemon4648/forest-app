@@ -6,7 +6,6 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 exports.createCustomer = catchAsyncErrors(async (req, res, next) => {
   try {
     const { email, shippingInfo } = req.body;
-    console.log("Create Customer: ", req.body);
 
     // Check if the customer already exists in MongoDB
     let customer = await Customer.findOne({ email });
@@ -19,7 +18,6 @@ exports.createCustomer = catchAsyncErrors(async (req, res, next) => {
 
     // Create a new customer in MongoDB
     customer = await Customer.create({ email, shippingInfo });
-    console.log("Create Customer: ", customer);
 
     // Create a new customer in Stripe
     const stripeCustomer = await stripe.customers.create({
@@ -27,7 +25,6 @@ exports.createCustomer = catchAsyncErrors(async (req, res, next) => {
       name: `${shippingInfo.firstName} ${shippingInfo.lastName}`,
       // You can add more details from shippingInfo if needed
     });
-    console.log("Customer: ", stripeCustomer);
 
     // Save the Stripe customer ID in MongoDB
     customer.stripeCustomerId = stripeCustomer.id;

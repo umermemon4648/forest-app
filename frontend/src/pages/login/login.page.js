@@ -30,9 +30,7 @@ const Login = () => {
     const redirect = location.search ? location.search.split("=")[1] : "/account";
 
     useEffect(() => {
-        if (error) {
-            // Handle errors here, display them to the user if needed
-            // console.error("Login error:", error);
+        if (error) { 
             setShowError(error !== 'No token found' && error !== "Cannot read properties of null (reading 'id')" && error);
         }
     }, [error]);

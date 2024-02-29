@@ -237,7 +237,6 @@ const OrderModal = (props) => {
 
   useEffect(() => {}, [props.isOpen, props.onClose, showStripe]);
 
-  console.log("props?.data?        -----", props?.data);
   return (
     <>
       <Transition appear show={props.isOpen} as={Fragment}>
@@ -283,12 +282,6 @@ const OrderModal = (props) => {
                           </button>
                           <button
                             className="w-max bg-[#D5E5AC]  text-black text-sm px-6 py-2 rounded-md cursor-pointer capitalize"
-                            // onClick={() =>
-                            //   pauseSubscriptionHandler(
-                            //     props?.data?.subscriptionId,
-                            //     props.data._id
-                            //   )
-                            // }
                             onClick={() =>
                               editCardBtnHandler(props.data?.subscriptionId)
                             }
@@ -343,7 +336,6 @@ const OrderModal = (props) => {
                                   </li>
                                 ))}
                             </ul>
-                            {/* <p className="text-xs capitalize">location</p> */}
                           </div>
                         )}
                         {props?.data?.product?._id && (

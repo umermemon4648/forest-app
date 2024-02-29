@@ -106,8 +106,7 @@ const PaymentSection = (props) => {
           customerId = newCustomer.stripeCustomer.id;
         }
 
-        // apply coupon here
-        console.log(customerId);
+        // apply coupon here 
         let couponCode = null;
         if (
           buySubscribeItem.length >= 0 &&
@@ -125,8 +124,7 @@ const PaymentSection = (props) => {
             }
           }
         }
-
-        console.log(couponCode);
+ 
 
         const createdSubscription = await fetch(
           `${apiBaseUrl}/api/v1/createSubSubscription`,
@@ -253,11 +251,9 @@ const PaymentSection = (props) => {
           },
         });
 
-        if (result.error) {
-          // payBtn.current.disabled = false;
+        if (result.error) { 
           setPayError(result.error.message);
-          setPayLoading(false);
-          // console.log(result.error.message);
+          setPayLoading(false); 
         } else {
           if (result.paymentIntent.status === "succeeded") {
             order.paymentInfo = {
@@ -284,9 +280,7 @@ const PaymentSection = (props) => {
             setPayError("There`s some issue while processing payment");
           }
         }
-      } catch (error) {
-        // payBtn.current.disabled = false;
-        // console.log(error.response.data.message);
+      } catch (error) {  
         setPayError(
           "There`s some issue while processing payment, Wrong card or empty fields"
         );

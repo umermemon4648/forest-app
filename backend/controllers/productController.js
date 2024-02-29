@@ -80,7 +80,6 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
       createPrice(stripeProduct.id, subscriptions.monthlyPrice, "month"),
       createPrice(stripeProduct.id, subscriptions.yearlyPrice, "year"),
     ]);
-    console.log(stripeProduct);
 
     stripeProduct.monthly_price = monthlyPriceObj;
     stripeProduct.yearly_price = yearlyPriceObj;

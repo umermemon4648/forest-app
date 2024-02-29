@@ -90,9 +90,7 @@ const PRODUCTS = (props) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleUpdateChange = (product) => {
-    console.log("Existing categories:", product?.categories);
-    console.log("Existing countries:", product?.countries);
+  const handleUpdateChange = (product) => { 
     setUpdateProduct(true);
     setFormData({
       ...product,
@@ -509,8 +507,7 @@ const PRODUCTS = (props) => {
             id: couponState.couponCode,
             percent_off: couponState.percent,
           });
-          if (res.data.success === true) {
-            console.log("coupon created");
+          if (res.data.success === true) { 
           }
         }
 

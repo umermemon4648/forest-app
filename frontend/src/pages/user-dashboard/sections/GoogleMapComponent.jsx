@@ -16,15 +16,7 @@ import _ from "lodash";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 
-// const treeIconSvg = renderToStaticMarkup(
-//   <MapPinSvg fontSize={12} color="green" />
-// );
-// const treeIconSvg = <Icon icon="gridicons:location" className="w-3 h-auto" />;
-import { RiTreeFill } from "react-icons/ri";
-
 const treeIconSvg = renderToStaticMarkup(
-  // <FaTree fontSize={12} color="green" />
-  // <RiTreeFill fontSize={12} color="green" />
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={32}
@@ -48,7 +40,6 @@ const treeIconSvg = renderToStaticMarkup(
       d="M66.5 86.98c-2.9.26-10.48 5.63-10.48 5.63s.39 9.12.1 14.27s-2.32 13.56-.45 15.69c1.62 1.84 15.24 2.19 17.27.05c2.04-2.14.06-10.98.06-16.71s-.58-16.31-.58-16.31s-2.62-2.91-5.92-2.62"
     ></path>
   </svg>
-  // <Icon icon="gridicons:location" className="w-3 h-auto" />
 );
 
 const allCoordinates = [
@@ -282,7 +273,7 @@ const GoogleMapComponent = ({ orders }) => {
     (map) => {
       mapRef.current = map;
     },
-    [allCoordinates]
+    [orders?.productArray]
   );
 
   if (loadError) {
